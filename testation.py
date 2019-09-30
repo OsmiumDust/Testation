@@ -12,6 +12,7 @@ all_students = {}
 
 mainwin = Tk()
 mainwin.geometry('300x300+300+300')
+mainwin.title('Markbook')
 
 
 class course:  #class containing info related to the course
@@ -116,23 +117,29 @@ class assignment:  #class containing info about any assignments
 
 
 def course_menu():
-    while True:
-        print("Input nothing to go back\nInput 'a' to create a new course\nInput 'b' to edit existing courses\n"
-              "Input 'c' to print all courses\nInput 'd' to print course details")
-        input_ = input()
-        if input_ == "":
-            break
-        elif input_ == "a":
-            create_course()
+    topwin = Toplevel()
+    topwin.geometry('300x300+300+300')
+    topwin.title('Course Menu')
+    create_a_course = Button(topwin, command=create_course, text='Create a course')
+    create_a_course.pack(side=TOP, padx=5, pady=5)
+    edit_a_course = Button(topwin, command=edit_course, text='Edit a course')
+    edit_a_course.pack(side=TOP, padx=5, pady=5)
+    all_courses = Button(topwin, command=show_all_courses, text='Show all courses')
+    all_courses.pack(side=TOP, padx=5, pady=5)
+    detail_course = Button(topwin, command=show_course, text='Show course in detail')
+    detail_course.pack(side=TOP, padx=5, pady=5)
+    backbutton = Button(topwin, command=topwin.destroy, text='Go Back')
         elif input_ == "b":
             edit_course(all_courses[(input("code: ").upper())])
-        elif input_ == "c":
-            print_all_course()
         elif input_ == "d":
-            print_course(all_courses[(input("code: ").upper())])
+            show_course(all_courses[(input("code: ").upper())])
 
 
 def create_course():
+    topwin = Toplevel()
+    topwin.title('Create Course')
+    topwin.geometry('300x300+300+300')
+    
     name = input("course name: ")
     code = input("course code: ").upper()
     period = input("period: ")
@@ -160,20 +167,22 @@ def edit_course(cou):
 
 
 def student_menu():
-    while True:
-        print("Input nothing to go back\nInput 'a' to add a student\nInput 'b' to remove students\nInput 'c' to show the student list\n"
-              "Input 'd' to show student details\nInput 'e' to edit a student")
-        input_ = input()
-        if input_ == "":
-            break
-        elif input_ == "a":
-            create_student()
-        elif input_ == "b":
-            remove_student(int(input("student number: ")))
-        elif input_ == "c":
-            print_all_student()
+    topwin = Toplevel()
+    topwin.geometry('300x300+300+300')
+    topwin.title('Student Menu')
+    add_a_students = Button(topwin, command=create_student, text='Add student')
+    add_a_students.pack(side=TOP, padx=5, pady=5)
+    del_a_students = Button(topwin, command=remove_student, text='Delete a Student')
+    del_a_students.pack(side=TOP, padx=5, pady=5)
+    list_students = Button(topwin, command=show_all_student, text='List all students')
+    list_students.pack(side=TOP, padx=5, pady=5)
+    show_a_student = Button(topwin, command=show_student, text='Show a student in detail')
+    show_student.pack(side=TOP, padx=5, pady=5)
+    edit_a_student = Button(topwin, command=edit_student, text='Edit a student')
+    edit_a_student.pack(side=TOP, padx=5, pady=5)
+    backbutton = Button(topwin, command=topwin.destroy, text'Go Back')
         elif input_ == "d":
-            print_student(all_students[(int(input("student number: ")))])
+            show_student(all_students[(int(input("student number: ")))])
         elif input_ == "e":
             edit_student(all_students[(int(input("student number: ")))])
 
@@ -202,24 +211,24 @@ def remove_student(stu):
     del all_students[stu]
 
 
-def print_all_student():
+def show_all_student():
     for stu in all_students.values():
         print(stu.first, stu.last, stu.stu_num)
 
 
-def print_student(stu):
+def show_student(stu):
     print(stu.first, stu.last, stu.stu_num)
     for code in stu.course_list:
         cou = all_courses[code]
         print(cou.name, stu.get_average(cou.code))
 
 
-def print_all_course():
+def show_all_course():
     for cou in all_courses.values():
         print(cou.name, cou.code, len(cou.students_list))
 
 
-def print_course(course):
+def show_course(course):
     print(course.name, course.code, course.period, course.teacher, course.class_average())
     for num in course.students_list:
         stu = all_students[num]
