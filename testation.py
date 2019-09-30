@@ -229,7 +229,10 @@ def print_course(course):
 def mainwinGUI():
     studentbutton = Button(mainwin, command=student_menu, text='Manage Students')
     studentbutton.pack(side=TOP, padx=5, pady=5)
-    
+    coursebutton = Button(mainwin, command=course_menu, text='Manage Courses')
+    coursebutton.pack(side=TOP, padx=5, pady=5)
+    savebutton = Button(mainwin, text='Save All Changes')
+    savebutton.pack(side=TOP, padx=5, pady=5)
 
 
 def main():
@@ -237,16 +240,12 @@ def main():
     with open("markbooksave", "rb") as input_:
                 all_students = pickle.load(input_)
                 all_courses = pickle.load(input_)
-    while True:
-        mainwinGUI()
-        if input_ == "a":
-            student_menu()
-        elif input_ == "b":
-            course_menu()
-        elif input_ == "s":
-            with open("markbooksave", "wb") as output:
-                pickle.dump(all_students, output, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(all_courses, output, pickle.HIGHEST_PROTOCOL)
+    mainwinGUI()
+    if True == False:
+        with open("markbooksave", "wb") as output:
+            pickle.dump(all_students, output, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(all_courses, output, pickle.HIGHEST_PROTOCOL)
+    mainwin.mainloop()
 
 
 if __name__ == "__main__":
